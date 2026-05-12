@@ -64,6 +64,7 @@ class LLMClient:
         system_prompt: str,
         user_message: str,
         temperature: float | None = None,
+        max_tokens: int | None = None,
     ) -> dict:
         """Send a chat completion and parse the response as JSON."""
         text = self.chat(
@@ -73,6 +74,7 @@ class LLMClient:
             ),
             user_message=user_message,
             temperature=temperature or 0.1,
+            max_tokens=max_tokens,
         )
         text = text.strip()
         if text.startswith("```"):

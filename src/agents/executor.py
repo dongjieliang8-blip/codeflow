@@ -47,4 +47,4 @@ def run(architect_plan: dict, source_files: str, client: LLMClient) -> dict:
         "plan": architect_plan,
         "source_code": source_files,
     }, ensure_ascii=False, indent=2)
-    return client.chat_json(SYSTEM_PROMPT, user_msg)
+    return client.chat_json(SYSTEM_PROMPT, user_msg, max_tokens=16384)

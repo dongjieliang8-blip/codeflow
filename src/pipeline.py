@@ -108,6 +108,10 @@ class Pipeline:
 
     def _print_executor_summary(self):
         e = self.result.executor_output
+        if "error" in e:
+            console.print(f"[yellow]Executor JSON parse error:[/] {e.get('error')}")
+            console.print("[dim]Raw response (first 500 chars):[/]")
+            console.print(f"[dim]{str(e.get('raw', ''))[:500]}[/]")
         batches = e.get("batches_executed", [])
         total_changes = sum(len(b.get("changes", [])) for b in batches)
         console.print(f"[green]Batches executed:[/] {len(batches)}")
@@ -124,7 +128,7 @@ class Pipeline:
         console.print(Panel.fit(
             f"[bold]Pipeline Complete[/]\n"
             f"Time: {self.result.elapsed_seconds:.1f}s\n"
-            f"Verdict: {self.verdict.upper()}\n"
+            f"Verdict: {self.result.verdict.upper()}\n"
             f"Errors: {len(self.result.errors)}",
             border_style="green" if self.result.success else "red"
         ))
